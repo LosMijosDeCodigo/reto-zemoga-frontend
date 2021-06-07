@@ -10,7 +10,6 @@ import {
   Fade,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-
 // styles
 import useStyles from "./styles";
 
@@ -30,6 +29,19 @@ function Login(props) {
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
+
+
+  async function validarUsuario() {
+    loginUser(
+      userDispatch,
+      loginValue,
+      passwordValue,
+      props.history,
+      setIsLoading,
+      setError,
+    )
+
+  }
 
   return (
     <Grid container className={classes.container}>
@@ -93,16 +105,7 @@ function Login(props) {
                     disabled={
                       loginValue.length === 0 || passwordValue.length === 0
                     }
-                    onClick={() =>
-                      loginUser(
-                        userDispatch,
-                        loginValue,
-                        passwordValue,
-                        props.history,
-                        setIsLoading,
-                        setError,
-                      )
-                    }
+                    onClick={validarUsuario}
                     variant="contained"
                     color="primary"
                     size="large"

@@ -36,6 +36,7 @@ import Charts from "../../pages/charts";
 import { useLayoutState } from "../../context/LayoutContext";
 
 function Layout(props) {
+  console.warn(props);
   var classes = useStyles();
 
   // global

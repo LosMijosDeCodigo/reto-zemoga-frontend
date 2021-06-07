@@ -1,5 +1,7 @@
 import React from "react";
 
+import services from './../services/services'
+
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
 
@@ -18,6 +20,9 @@ function userReducer(state, action) {
 function UserProvider({ children }) {
   var [state, dispatch] = React.useReducer(userReducer, {
     isAuthenticated: !!localStorage.getItem("id_token"),
+    userId: !!localStorage.getItem("userId"),
+    userName: !!localStorage.getItem("userName"),
+    userEmail: !!localStorage.getItem("userEmail"),
   });
 
   return (
@@ -45,25 +50,29 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, signOut, datos};
 
 // ###########################################################
 
-function loginUser(dispatch, login, password, history, setIsLoading, setError) {
+async function loginUser(dispatch, login, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
-
-  if (!!login && !!password) {
+  let body = {email: login, password: password}
+  //let api = await services.post('users/login',body);
+  let api = services.preubaLogin(body);
+  if (api.status === 200) {
     setTimeout(() => {
-      localStorage.setItem('id_token', 1)
-      setError(null)
+      localStorage.setItem('id_token', api.body.token)
+      localStorage.setItem('userId', api.body.id)
+      localStorage.setItem('userName', api.body.fullName)
+      localStorage.setItem('userEmail', api.body.email)
+      setError(false)
       setIsLoading(false)
       dispatch({ type: 'LOGIN_SUCCESS' })
 
       history.push('/app/dashboard')
     }, 2000);
   } else {
-    dispatch({ type: "LOGIN_FAILURE" });
     setError(true);
     setIsLoading(false);
   }
@@ -71,6 +80,17 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 
 function signOut(dispatch, history) {
   localStorage.removeItem("id_token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userEmail");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
+}
+
+function datos() {
+  return {    isAuthenticated: localStorage.getItem("id_token"),
+  userId: localStorage.getItem("userId"),
+  userName: localStorage.getItem("userName"),
+  userEmail: localStorage.getItem("userEmail")
+}
 }

@@ -34,7 +34,7 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
-import { useUserDispatch, signOut } from "../../context/UserContext";
+import { useUserDispatch, signOut, datos } from "../../context/UserContext";
 
 const messages = [
   {
@@ -104,6 +104,9 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
+  var [isDatosUser, setDatosUser] = useState(datos());
+
+  console.log(isDatosUser);
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -136,11 +139,7 @@ export default function Header(props) {
             />
           )}
         </IconButton>
-        <Typography variant="h6" weight="medium" className={classes.logotype}>
-          React Material Admin
-        </Typography>
         <div className={classes.grow} />
-        <Button component={Link} href="https://flatlogic.com/templates/react-material-admin-full" variant={"outlined"} color={"secondary"} className={classes.purchaseBtn}>Unlock full version</Button>
         <div
           className={classNames(classes.search, {
             [classes.searchFocused]: isSearchOpen,
@@ -162,23 +161,6 @@ export default function Header(props) {
             }}
           />
         </div>
-        <IconButton
-          color="inherit"
-          aria-haspopup="true"
-          aria-controls="mail-menu"
-          onClick={e => {
-            setNotificationsMenu(e.currentTarget);
-            setIsNotificationsUnread(false);
-          }}
-          className={classes.headerMenuButton}
-        >
-          <Badge
-            badgeContent={isNotificationsUnread ? notifications.length : null}
-            color="warning"
-          >
-            <NotificationsIcon classes={{ root: classes.headerIcon }} />
-          </Badge>
-        </IconButton>
         <IconButton
           color="inherit"
           aria-haspopup="true"
@@ -261,24 +243,6 @@ export default function Header(props) {
           </Fab>
         </Menu>
         <Menu
-          id="notifications-menu"
-          open={Boolean(notificationsMenu)}
-          anchorEl={notificationsMenu}
-          onClose={() => setNotificationsMenu(null)}
-          className={classes.headerMenu}
-          disableAutoFocusItem
-        >
-          {notifications.map(notification => (
-            <MenuItem
-              key={notification.id}
-              onClick={() => setNotificationsMenu(null)}
-              className={classes.headerMenuItem}
-            >
-              <Notification {...notification} typographyVariant="inherit" />
-            </MenuItem>
-          ))}
-        </Menu>
-        <Menu
           id="profile-menu"
           open={Boolean(profileMenu)}
           anchorEl={profileMenu}
@@ -289,15 +253,14 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
+              {isDatosUser.userName}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
               component="a"
               color="primary"
-              href="https://flatlogic.com"
             >
-              Flalogic.com
+            {isDatosUser.userEmail}
             </Typography>
           </div>
           <MenuItem
@@ -306,23 +269,7 @@ export default function Header(props) {
               classes.headerMenuItem,
             )}
           >
-            <AccountIcon className={classes.profileMenuIcon} /> Profile
-          </MenuItem>
-          <MenuItem
-            className={classNames(
-              classes.profileMenuItem,
-              classes.headerMenuItem,
-            )}
-          >
-            <AccountIcon className={classes.profileMenuIcon} /> Tasks
-          </MenuItem>
-          <MenuItem
-            className={classNames(
-              classes.profileMenuItem,
-              classes.headerMenuItem,
-            )}
-          >
-            <AccountIcon className={classes.profileMenuIcon} /> Messages
+            <AccountIcon className={classes.profileMenuIcon} /> Mis datos
           </MenuItem>
           <div className={classes.profileMenuUser}>
             <Typography
@@ -330,7 +277,7 @@ export default function Header(props) {
               color="primary"
               onClick={() => signOut(userDispatch, props.history)}
             >
-              Sign Out
+              Cerrar sesion
             </Typography>
           </div>
         </Menu>
