@@ -21,10 +21,7 @@ export default class Services {
     if (!("harold@gmail.com" === body.email && "123" === body.password)) {
       response.status = 400
     }
-    Services.post("auth/login", {
-      "email": "andrespipe021028@gmail.com",
-      "password": "1234567"
-    })
+
     return response;
   }
 
