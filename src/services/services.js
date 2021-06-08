@@ -25,10 +25,15 @@ export default class Services {
     return response;
   }
 
-  static get(rute) {
-    return axios.get(API_URI + rute, {
-      headers: this.headers
-    });
+  static async get(rute) {
+    let response = {};
+    try {
+      response = await axios.get(API_URI + rute);
+      response.statusCode = 200;
+    } catch (error) {
+      response.statusCode = 400;
+    }
+    return response
   }
 
   static async post(rute, body) {
