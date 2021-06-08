@@ -1,4 +1,4 @@
-import React, { useRef, useState, useStyles } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { datos } from './../../context/UserContext'
 import { CircularProgress, Fade, Select, Typography } from '@material-ui/core';
-
+import useStyles from "./../../pages/login/styles";
 //helpers
 function imageToBase64(files = []) {
   const base64Files = files.map((file) => {
@@ -78,21 +78,46 @@ export default function FormDialog() {
   const handleSubmit = (e) => {
 
     e.preventDefault()
-    if (files.length == 0) alert("Añade imagenes")
-    fetch(window.env.API_ENDPOINT + "users", { method: "POST", body: form })
+    if (files.length === 0) return alert("Añade imagenes")
+    setIsLoading(true)
+    form.userId = parseInt(form.userId)
+    form.publicationTypeId = parseInt(form.publicationTypeId)
+    form.stock = parseInt(form.stock)
+    form.price = form.price.indexOf(".") === -1 ? form.price + ".0000" : form.price
+
+    fetch(window.env.API_ENDPOINT + "publications", {
+      headers: {
+        "Authorization": "Bearer " + datos().isAuthenticated,
+        "Content-Type": "application/json"
+      }, method: "POST", body: JSON.stringify(form)
+    })
       .then(res => res.json())
       .then((res) => {
         if ("id" in res) {
-          fetch(window.env.API_ENDPOINT + res.id + "/images", { method: "POST", body: { images: files } })
+          fetch(window.env.API_ENDPOINT + "publications/" + res.id + "/images", {
+            headers: {
+              "Authorization": "Bearer " + datos().isAuthenticated,
+              "Content-Type": "application/json"
+            }, method: "POST", body: JSON.stringify({ images: files })
+          })
             .then((res) => {
               if (res.ok) {
+                setForm({ ...initState })
+                setFiles([])
                 setIsLoading(false)
                 setMessage({ type: "success", message: "Publicacion hecha correctamente" })
+              } else {
+                setIsLoading(false)
+                setMessage({ type: "error", message: "Error al crear la publicacion" })
               }
             })
+        } else {
+          setIsLoading(false)
+          setMessage({ type: "error", message: "Error al crear la publicacion" })
+
         }
       })
-      .catch(() => {
+      .catch((err) => {
         setIsLoading(false)
         setMessage({ type: "error", message: "Error al crear la publicacion" })
       })
@@ -116,7 +141,7 @@ export default function FormDialog() {
           </Fade>
 
           <Fade in={message.type == "success"}>
-            <Typography color="primary" >
+            <Typography style={{ color: "green" }} >
               Publicacion realizada correctamente.
             </Typography>
           </Fade>
