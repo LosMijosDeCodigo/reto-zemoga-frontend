@@ -43,7 +43,6 @@ export default function NotificationsPage(props) {
 
   var [data, setdata] = useState([])
 
-  let description = "Lorem ipsum dolor sit amet consectetur adipiscing elit cras, nascetur tellus metus duis dapibus per pellentesque ornare aptent, nisl est lobortis netus mus suscipit maecenas. Per elementum feugiat scelerisque semper massa rutrum aliquam, nibh imperdiet gravida aptent congue tempus vestibulum, magna volutpat ante maecenas hac condimentum. In purus nulla bibendum nibh tristique dictumst vestibulum."
 
   async function traerData() {
     setdata(await services.get('publications'))
