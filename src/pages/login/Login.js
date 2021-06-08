@@ -14,7 +14,7 @@ import { withRouter } from "react-router-dom";
 import useStyles from "./styles";
 
 // context
-import { useUserDispatch, loginUser } from "../../context/UserContext";
+import { useUserDispatch, loginUser, registryUser } from "../../context/UserContext";
 
 function Login(props) {
   var classes = useStyles();
@@ -25,6 +25,8 @@ function Login(props) {
   // local
   var [isLoading, setIsLoading] = useState(false);
   var [error, setError] = useState(null);
+  var [isregistryUser, setRegistryUser] = useState(null);
+  var [isregistryTrue, setRegistryTrue] = useState(null);
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
@@ -125,13 +127,18 @@ function Login(props) {
               <Typography variant="h2" className={classes.subGreeting}>
                 Crea tu cuenta!
               </Typography>
-              <Fade in={error}>
+              <Fade in={isregistryUser}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+                  Los datos son errados o ya se encuentra registrado
+                </Typography>
+              </Fade>
+              <Fade in={isregistryTrue}>
+                <Typography color="primary" className={classes.errorMessage}>
+                  Usuario registrado correctamente :D por favor ingrese sesion
                 </Typography>
               </Fade>
               <TextField
-                id="name"
+                id="fullName"
                 InputProps={{
                   classes: {
                     underline: classes.textFieldUnderline,
@@ -181,13 +188,16 @@ function Login(props) {
                 ) : (
                   <Button
                     onClick={() =>
-                      loginUser(
+                      registryUser(
                         userDispatch,
+                        nameValue,
                         loginValue,
                         passwordValue,
                         props.history,
                         setIsLoading,
                         setError,
+                        setRegistryUser,
+                        setRegistryTrue
                       )
                     }
                     disabled={
