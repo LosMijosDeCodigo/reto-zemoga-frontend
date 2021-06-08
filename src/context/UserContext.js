@@ -58,8 +58,8 @@ async function loginUser(dispatch, login, password, history, setIsLoading, setEr
   setError(false);
   setIsLoading(true);
   let body = {email: login, password: password}
-  //let api = await services.post('users/login',body);
-  let api = services.preubaLogin(body);
+  let api = await services.post('auth/login', body);
+  //let api = services.preubaLogin(body);
   if (api.status === 200) {
     setTimeout(() => {
       localStorage.setItem('id_token', api.body.token)

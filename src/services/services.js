@@ -35,7 +35,7 @@ export default class Services {
   }
 
   static post(rute, body) {
-    return axios.post(API_URI + rute, body, { headers: "FUCJ" });
+    return axios.post(API_URI + rute, body, { headers: "" });
   }
 
   static put(rute, body) {
