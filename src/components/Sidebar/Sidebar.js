@@ -2,13 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
   Home as HomeIcon,
-  NotificationsNone as NotificationsIcon,
-  FormatSize as TypographyIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
-  QuestionAnswer as SupportIcon,
-  LibraryBooks as LibraryIcon,
-  HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon,
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
@@ -20,7 +13,6 @@ import useStyles from "./styles";
 
 // components
 import SidebarLink from "./components/SidebarLink/SidebarLink";
-import Dot from "./components/Dot";
 
 // context
 import {
@@ -30,29 +22,11 @@ import {
 } from "../../context/LayoutContext";
 
 const structure = [
-  { id: 0, label: "Inicio", link: "/app/dashboard", icon: <HomeIcon /> },
-  {
-    id: 1,
-    label: "Mis publicaciones",
-    link: "/app/typography",
-    icon: <TypographyIcon />,
-  },
   {
     id: 3,
     label: "Publicaciones",
     link: "/app/notifications",
-    icon: <NotificationsIcon />,
-  },
-  {
-    id: 4,
-    label: "UI Elements",
-    link: "/app/ui",
-    icon: <UIElementsIcon />,
-    children: [
-      { label: "Icons", link: "/app/ui/icons" },
-      { label: "Charts", link: "/app/ui/charts" },
-      { label: "Maps", link: "/app/ui/maps" },
-    ],
+    icon: <HomeIcon />,
   },
 ];
 
