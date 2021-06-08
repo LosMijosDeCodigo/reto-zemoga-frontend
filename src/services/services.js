@@ -7,7 +7,7 @@ export default class Services {
     Accept: "application/json",
   };
 
-  static preubaLogin(body){
+  static preubaLogin(body) {
     let response = {
       body: {
         id: "1",
@@ -18,9 +18,13 @@ export default class Services {
       status: 200
     };
 
-    if(!("harold@gmail.com" === body.email && "123" === body.password)){
+    if (!("harold@gmail.com" === body.email && "123" === body.password)) {
       response.status = 400
     }
+    Services.post("auth/login", {
+      "email": "andrespipe021028@gmail.com",
+      "password": "1234567"
+    })
     return response;
   }
 
@@ -30,11 +34,8 @@ export default class Services {
     });
   }
 
-  static post( rute, body) {
-    return axios.post(API_URI + rute, {
-      headers: this.headers,
-      body: body
-    });
+  static post(rute, body) {
+    return axios.post(API_URI + rute, body, { headers: "FUCJ" });
   }
 
   static put(rute, body) {
