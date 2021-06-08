@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { Close as CloseIcon } from "@material-ui/icons";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,6 +20,7 @@ import {
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "./styles";
+
 
 // components
 import Widget from "../../components/Widget/Widget";
@@ -43,16 +44,20 @@ export default function NotificationsPage(props) {
 
   var [data, setdata] = useState([])
 
-
-  async function traerData() {
-    setdata(await services.get('publications'))
-    console.log('-----------');
-    console.log(data);
-    console.log('-----------');
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 4000);
-  }
+  useEffect(() => {
+    const getDataPublish = async () => {
+      await services
+        .get("publications")
+        .then((res) => {
+          setdata(res);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+    getDataPublish();
+  },[])
 
   return (
     <>
@@ -60,7 +65,7 @@ export default function NotificationsPage(props) {
       <PageTitle title="Publicaciones" />
       <Grid container spacing={4} direction="row" justify="space-evenly">
         {isLoading  ? (
-          <CircularProgress size={26} onClick={traerData} className={classes.loginLoader} />
+          <CircularProgress size={26} className={classes.loginLoader} />
         ) : (
           data.data.map((x) => <RecipeReviewCard datos={x} />)
         )}
