@@ -30,7 +30,7 @@ export default class Services {
     });
   }
 
-  static post( rute, body) {
+  static post(rute ,body) {
     return axios.post(API_URI + rute, {
       headers: this.headers,
       body: body
