@@ -6,6 +6,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import classnames from "classnames";
 import RecipeReviewCard from '../../components/card/Publication'
+import FormDialog from '../../components/card/newPublication'
 
 // styles
 import "react-toastify/dist/ReactToastify.css";
@@ -88,6 +89,7 @@ export default function NotificationsPage(props) {
   ]
   return (
     <>
+      <FormDialog />
       <PageTitle title="Publicaciones" />
       <Grid container spacing={4}  direction="row" justify="space-evenly">
         {data.map((x) => (
