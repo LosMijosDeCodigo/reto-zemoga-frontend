@@ -67,7 +67,7 @@ async function loginUser(dispatch, login, password, history, setIsLoading, setEr
       setError(false)
       setIsLoading(false)
       dispatch({ type: 'LOGIN_SUCCESS' })
-      history.push('/app/dashboard')
+      history.push('/app/publicaciones')
   } else {
     setError(true);
     setIsLoading(false);

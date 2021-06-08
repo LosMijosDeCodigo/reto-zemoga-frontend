@@ -24,12 +24,7 @@ import Header from "../Header";
 import Sidebar from "../Sidebar";
 
 // pages
-import Dashboard from "../../pages/dashboard";
-import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
-import Maps from "../../pages/maps";
-import Icons from "../../pages/icons";
-import Charts from "../../pages/charts";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -53,17 +48,7 @@ function Layout(props) {
           >
             <div className={classes.fakeToolbar} />
             <Switch>
-              <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/typography" component={Typography} />
               <Route path="/app/notifications" component={Notifications} />
-              <Route
-                exact
-                path="/app/ui"
-                render={() => <Redirect to="/app/ui/icons" />}
-              />
-              <Route path="/app/ui/maps" component={Maps} />
-              <Route path="/app/ui/icons" component={Icons} />
-              <Route path="/app/ui/charts" component={Charts} />
             </Switch>
             <Box
               mt={5}
@@ -73,34 +58,10 @@ function Layout(props) {
               justifyContent="space-between"
             >
               <div>
-                <Link
-                  color={'primary'}
-                  href={'https://flatlogic.com/'}
-                  target={'_blank'}
-                  className={classes.link}
-                >
-                  Flatlogic
-                </Link>
-                <Link
-                  color={'primary'}
-                  href={'https://flatlogic.com/about'}
-                  target={'_blank'}
-                  className={classes.link}
-                >
-                  About Us
-                </Link>
-                <Link
-                  color={'primary'}
-                  href={'https://flatlogic.com/blog'}
-                  target={'_blank'}
-                  className={classes.link}
-                >
-                  Blog
-                </Link>
               </div>
               <div>
                 <Link
-                  href={'https://www.facebook.com/flatlogic'}
+                  href={'https://www.facebook.com/'}
                   target={'_blank'}
                 >
                   <IconButton aria-label="facebook">
@@ -112,7 +73,7 @@ function Layout(props) {
                   </IconButton>
                 </Link>
                 <Link
-                  href={'https://twitter.com/flatlogic'}
+                  href={'https://twitter.com/'}
                   target={'_blank'}
                 >
                   <IconButton aria-label="twitter">
@@ -124,7 +85,7 @@ function Layout(props) {
                   </IconButton>
                 </Link>
                 <Link
-                  href={'https://github.com/flatlogic'}
+                  href={'https://github.com/'}
                   target={'_blank'}
                 >
                   <IconButton
