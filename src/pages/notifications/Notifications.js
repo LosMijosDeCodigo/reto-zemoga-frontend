@@ -45,10 +45,9 @@ export default function NotificationsPage(props) {
         {isLoading ? (
           <CircularProgress size={26} className={classes.loginLoader} />
         ) : (
-          data.data.map((x) => <RecipeReviewCard datos={x} />)
+          data.data.reverse().map((x) => <RecipeReviewCard datos={x} />)
         )}
       </Grid>
     </>
   );
 }
-

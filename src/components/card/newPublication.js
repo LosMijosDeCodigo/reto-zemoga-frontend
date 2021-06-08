@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -50,7 +50,7 @@ const stylesImage = {
 export default function FormDialog() {
 
   const initState = {
-    "userId": datos().userId,
+    "userId": localStorage.getItem("userId"),
     "publicationTypeId": 1,
     "name": "",
     "price": "",
@@ -67,9 +67,7 @@ export default function FormDialog() {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  setTimeout(() => {
-    setForm(userId: datos().userId, ...form)
-  }, 2000);
+
 
   const handleClose = () => {
     setOpen(false);
@@ -83,7 +81,7 @@ export default function FormDialog() {
     e.preventDefault()
     if (files.length === 0) return alert("Añade imagenes")
     setIsLoading(true)
-    form.userId = parseInt(form.userId)
+    form.userId = parseInt(localStorage.getItem("userId"))
     form.publicationTypeId = parseInt(form.publicationTypeId)
     form.stock = parseInt(form.stock)
     form.price = form.price.indexOf(".") === -1 ? form.price + ".0000" : form.price

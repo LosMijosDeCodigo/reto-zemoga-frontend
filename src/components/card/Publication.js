@@ -48,73 +48,92 @@ export default function RecipeReviewCard(props) {
   const [expanded, setExpanded] = React.useState(false);
 
   console.log(props);
-  const {datos} = props;
+  const { datos } = props;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  let defaultImage = "https://static.wikia.nocookie.net/youtubepedia/images/c/c0/Inco.jpg/revision/latest/top-crop/width/360/height/450?cb=20190427181002&path-prefix=es"
+  let { datos: { images } } = props;
+  let image = images.length === 0 ? defaultImage : images[0].base64;
 
+  function b64toBlob(dataURI) {
+    var byteString = window.atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
+  }
+  try {
+    image = URL.createObjectURL(b64toBlob(image))
+  } catch (err) {
+    image = defaultImage
+  }
   return (
     <Grid item xs='auto' md='auto' lg='auto' key={datos.id}>
 
-        <Card className={classes.root}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
-                {datos.user.fullName.charAt(0).toUpperCase()}
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={datos.user.fullName}
-            subheader={datos.createdAt}
-          />
-          <CardMedia
-            className={classes.media}
-            image={pc}
-            title="Paella dish"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {datos.user.fullName.charAt(0).toUpperCase()}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={datos.user.fullName}
+          subheader={datos.createdAt}
+        />
+        {/* <CardMedia square
+          className={classes.media}
+          imageUrl={image}
+          title="Paella dish"
+        /> */}
+        <img src={image} style={{ width: "100%" }} />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
             {datos.description}
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
 
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>Method:</Typography>
-              <Typography paragraph>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Method:</Typography>
+            <Typography paragraph>
               stock: {datos.price}
-              </Typography>
-              <Typography paragraph>
+            </Typography>
+            <Typography paragraph>
               stock: {datos.stock}
+            </Typography>
+            <Typography paragraph>
+              {datos.contact}
+            </Typography>
+            <Typography>
+              Set aside off of the heat to let rest for 10 minutes, and then serve.
               </Typography>
-              <Typography paragraph>
-                {datos.contact}
-              </Typography>
-              <Typography>
-                Set aside off of the heat to let rest for 10 minutes, and then serve.
-              </Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
+          </CardContent>
+        </Collapse>
+      </Card>
     </Grid>
   );
 }
