@@ -32,54 +32,67 @@ export default function NotificationsPage(props) {
   var [notificationsPosition, setNotificationPosition] = useState(2);
   var [errorToastId, setErrorToastId] = useState(null);
 
+  let description = "Lorem ipsum dolor sit amet consectetur adipiscing elit cras, nascetur tellus metus duis dapibus per pellentesque ornare aptent, nisl est lobortis netus mus suscipit maecenas. Per elementum feugiat scelerisque semper massa rutrum aliquam, nibh imperdiet gravida aptent congue tempus vestibulum, magna volutpat ante maecenas hac condimentum. In purus nulla bibendum nibh tristique dictumst vestibulum."
+
+
   let data = [
   {
-    name:'harold',
-    id: '1'
+    name:'Lavadora',
+    id: '1',
+    userName: 'harold',
+    date: 'Junio 11, 2021',
+    description: description
   },
   {
-    name:'carlos',
-    id: '2'
+    name:'Radio',
+    id: '2',
+    userName: 'Pepe',
+    date: 'Junio 11, 2021',
+    description: description
   },
   {
-    name:'sticen',
-    id: '3'
+    name:'Bafle',
+    id: '3',
+    userName: 'Carlos',
+    date: 'Junio 11, 2021',
+    description: description
   },
   {
-    name:'santiago',
-    id: '4'
+    name:'cable',
+    id: '4',
+    userName: 'Rodrigo',
+    date: 'Junio 11, 2021',
+    description: description
   },
   {
-    name:'elpepe',
-    id: '5'
+    name:'moden',
+    id: '5',
+    userName: 'Elver',
+    date: 'Junio 11, 2021',
+    description: description
   },
   {
-    name:'orlando',
-    id: '6'
+    name:'pc',
+    id: '6',
+    userName: 'Jose',
+    date: 'Junio 11, 2021',
+    description: description
   },
   {
-    name:'florida',
-    id: '7'
+    name:'sim',
+    id: '7',
+    userName: 'Caremonda',
+    date: 'Junio 11, 2021',
+    description: description
   },
   ]
   return (
     <>
-      <PageTitle title="Notifications" />
-      <Grid container spacing={4}>
-        <ToastContainer
-          className={classes.toastsContainer}
-          closeButton={
-            <CloseButton className={classes.notificationCloseButton} />
-          }
-          closeOnClick={false}
-          progressClassName={classes.notificationProgress}
-        />
-
+      <PageTitle title="Publicaciones" />
+      <Grid container spacing={4}  direction="row" justify="space-evenly">
         {data.map((x) => (
               <RecipeReviewCard datos={x}/>
         ))}
-
-
         </Grid>
 
     </>
