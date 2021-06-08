@@ -31,8 +31,15 @@ export default class Services {
     });
   }
 
-  static post(rute, body) {
-    return axios.post(API_URI + rute, body, { headers: "" });
+  static async post(rute, body) {
+    let response = {};
+    try {
+      response = await axios.post(API_URI + rute, body, { headers: "" });
+      response.statusCode = 200;
+    } catch (error) {
+      response.statusCode = 400;
+    }
+    return response
   }
 
   static put(rute, body) {

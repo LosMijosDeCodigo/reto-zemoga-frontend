@@ -59,19 +59,15 @@ async function loginUser(dispatch, login, password, history, setIsLoading, setEr
   setIsLoading(true);
   let body = {email: login, password: password}
   let api = await services.post('auth/login', body);
-  //let api = services.preubaLogin(body);
-  if (api.status === 200) {
-    setTimeout(() => {
-      localStorage.setItem('id_token', api.body.token)
-      localStorage.setItem('userId', api.body.id)
-      localStorage.setItem('userName', api.body.fullName)
-      localStorage.setItem('userEmail', api.body.email)
+  if (api.statusCode === 200) {
+      localStorage.setItem('id_token', api.data.token)
+      localStorage.setItem('userId', api.data.data.id)
+      localStorage.setItem('userName', api.data.data.fullName)
+      localStorage.setItem('userEmail', api.data.data.email)
       setError(false)
       setIsLoading(false)
       dispatch({ type: 'LOGIN_SUCCESS' })
-
       history.push('/app/dashboard')
-    }, 2000);
   } else {
     setError(true);
     setIsLoading(false);
