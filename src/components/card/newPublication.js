@@ -47,8 +47,7 @@ const stylesImage = {
   borderBlockColor: "gray", borderStyle: "solid", width: "100px",
   margin: "4px"
 };
-export default function FormDialog() {
-
+export default function FormDialog(props) {
   const initState = {
     "userId": localStorage.getItem("userId"),
     "publicationTypeId": 1,
@@ -107,6 +106,8 @@ export default function FormDialog() {
                 setFiles([])
                 setIsLoading(false)
                 setMessage({ type: "success", message: "Publicacion hecha correctamente" })
+                props.getDatos()
+                handleClose()
               } else {
                 setIsLoading(false)
                 setMessage({ type: "error", message: "Error al crear la publicacion" })

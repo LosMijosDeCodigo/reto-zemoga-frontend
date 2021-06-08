@@ -22,8 +22,7 @@ export default function NotificationsPage(props) {
 
   var [data, setdata] = useState([]);
 
-  useEffect(() => {
-    const getDataPublish = async () => {
+  const getDataPublish = async () => {
       await services
         .get("publications")
         .then((res) => {
@@ -34,18 +33,19 @@ export default function NotificationsPage(props) {
           console.error(err);
         });
     };
+  useEffect(() => {
     getDataPublish();
   }, []);
 
   return (
     <>
-      <FormDialog />
+      <FormDialog getDatos={getDataPublish}/>
       <PageTitle title="Publicaciones" />
       <Grid container spacing={4} direction="row" justify="space-evenly">
         {isLoading ? (
           <CircularProgress size={26} className={classes.loginLoader} />
         ) : (
-          data.data.reverse().map((x) => <RecipeReviewCard datos={x} />)
+          data.data.reverse().map((x) => <RecipeReviewCard datos={x} key={x.id}/>)
         )}
       </Grid>
     </>
