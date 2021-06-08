@@ -50,7 +50,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut, datos};
+export { UserProvider, useUserState, useUserDispatch, loginUser, signOut, datos, registryUser};
 
 // ###########################################################
 
@@ -70,6 +70,21 @@ async function loginUser(dispatch, login, password, history, setIsLoading, setEr
       history.push('/app/dashboard')
   } else {
     setError(true);
+    setIsLoading(false);
+  }
+}
+async function registryUser(dispatch,name,login,passwordValue,history,setIsLoading,setError,registryError, registryTrue){
+  registryTrue(false);
+  registryError(false);
+  setIsLoading(true);
+  let body = {fullName:name, email: login, password: passwordValue}
+  let api = await services.post('auth/register', body);
+  if (api.statusCode === 200) {
+      registryTrue(true);
+      registryError(false)
+      setIsLoading(false)
+  } else {
+    registryError(true);
     setIsLoading(false);
   }
 }

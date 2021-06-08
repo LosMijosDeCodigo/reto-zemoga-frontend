@@ -60,7 +60,7 @@ export default function RecipeReviewCard(props) {
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                {datos.userName.charAt(0).toUpperCase()}
+                {datos.user.fullName.charAt(0).toUpperCase()}
               </Avatar>
             }
             action={
@@ -68,8 +68,8 @@ export default function RecipeReviewCard(props) {
                 <MoreVertIcon />
               </IconButton>
             }
-            title={datos.userName}
-            subheader={datos.date}
+            title={datos.user.fullName}
+            subheader={datos.createdAt}
           />
           <CardMedia
             className={classes.media}
@@ -101,14 +101,13 @@ export default function RecipeReviewCard(props) {
             <CardContent>
               <Typography paragraph>Method:</Typography>
               <Typography paragraph>
-                Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                minutes.
+              stock: {datos.price}
               </Typography>
               <Typography paragraph>
-              {datos.description}
+              stock: {datos.stock}
               </Typography>
               <Typography paragraph>
-                {datos.description}
+                {datos.contact}
               </Typography>
               <Typography>
                 Set aside off of the heat to let rest for 10 minutes, and then serve.

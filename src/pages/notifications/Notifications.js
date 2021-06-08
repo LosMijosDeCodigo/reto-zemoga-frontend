@@ -7,7 +7,16 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import classnames from "classnames";
 import RecipeReviewCard from '../../components/card/Publication'
 import FormDialog from '../../components/card/newPublication'
-
+import services from '../../services/services'
+import {
+  CircularProgress,
+  Typography,
+  Button,
+  Tabs,
+  Tab,
+  TextField,
+  Fade,
+} from "@material-ui/core";
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "./styles";
@@ -30,151 +39,33 @@ export default function NotificationsPage(props) {
   var classes = useStyles();
 
   // local
-  var [notificationsPosition, setNotificationPosition] = useState(2);
-  var [errorToastId, setErrorToastId] = useState(null);
+  var [isLoading, setIsLoading] = useState(true);
 
-  let description = "Lorem ipsum dolor sit amet consectetur adipiscing elit cras, nascetur tellus metus duis dapibus per pellentesque ornare aptent, nisl est lobortis netus mus suscipit maecenas. Per elementum feugiat scelerisque semper massa rutrum aliquam, nibh imperdiet gravida aptent congue tempus vestibulum, magna volutpat ante maecenas hac condimentum. In purus nulla bibendum nibh tristique dictumst vestibulum."
+  var [data, setdata] = useState([])
 
 
-  let data = [
-  {
-    name:'Lavadora',
-    id: '1',
-    userName: 'harold',
-    date: 'Junio 11, 2021',
-    description: description
-  },
-  {
-    name:'Radio',
-    id: '2',
-    userName: 'Pepe',
-    date: 'Junio 11, 2021',
-    description: description
-  },
-  {
-    name:'Bafle',
-    id: '3',
-    userName: 'Carlos',
-    date: 'Junio 11, 2021',
-    description: description
-  },
-  {
-    name:'cable',
-    id: '4',
-    userName: 'Rodrigo',
-    date: 'Junio 11, 2021',
-    description: description
-  },
-  {
-    name:'moden',
-    id: '5',
-    userName: 'Elver',
-    date: 'Junio 11, 2021',
-    description: description
-  },
-  {
-    name:'pc',
-    id: '6',
-    userName: 'Jose',
-    date: 'Junio 11, 2021',
-    description: description
-  },
-  {
-    name:'sim',
-    id: '7',
-    userName: 'Caremonda',
-    date: 'Junio 11, 2021',
-    description: description
-  },
-  ]
+  async function traerData() {
+    setdata(await services.get('publications'))
+    console.log('-----------');
+    console.log(data);
+    console.log('-----------');
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 4000);
+  }
+
   return (
     <>
       <FormDialog />
       <PageTitle title="Publicaciones" />
-      <Grid container spacing={4}  direction="row" justify="space-evenly">
-        {data.map((x) => (
-              <RecipeReviewCard datos={x}/>
-        ))}
-        </Grid>
-
+      <Grid container spacing={4} direction="row" justify="space-evenly">
+        {isLoading  ? (
+          <CircularProgress size={26} onClick={traerData} className={classes.loginLoader} />
+        ) : (
+          data.data.map((x) => <RecipeReviewCard datos={x} />)
+        )}
+      </Grid>
     </>
   );
-
-  // #############################################################
-  function sendNotification(componentProps, options) {
-    return toast(
-      <Notification
-        {...componentProps}
-        className={classes.notificationComponent}
-      />,
-      options,
-    );
-  }
-
-  function retryErrorNotification() {
-    var componentProps = {
-      type: "message",
-      message: "Message was sent successfully!",
-      variant: "contained",
-      color: "success",
-    };
-    toast.update(errorToastId, {
-      render: <Notification {...componentProps} />,
-      type: "success",
-    });
-    setErrorToastId(null);
-  }
-
-  function handleNotificationCall(notificationType) {
-    var componentProps;
-
-    if (errorToastId && notificationType === "error") return;
-
-    switch (notificationType) {
-      case "info":
-        componentProps = {
-          type: "feedback",
-          message: "New user feedback received",
-          variant: "contained",
-          color: "primary",
-        };
-        break;
-      case "error":
-        componentProps = {
-          type: "message",
-          message: "Message was not sent!",
-          variant: "contained",
-          color: "secondary",
-          extraButton: "Resend",
-          extraButtonClick: retryErrorNotification,
-        };
-        break;
-      default:
-        componentProps = {
-          type: "shipped",
-          message: "The item was shipped",
-          variant: "contained",
-          color: "success",
-        };
-    }
-
-    var toastId = sendNotification(componentProps, {
-      type: notificationType,
-      position: positions[notificationsPosition],
-      progressClassName: classes.progress,
-      onClose: notificationType === "error" && (() => setErrorToastId(null)),
-      className: classes.notification,
-    });
-
-    if (notificationType === "error") setErrorToastId(toastId);
-  }
-
-  function changeNotificationPosition(positionId) {
-    setNotificationPosition(positionId);
-  }
 }
 
-// #############################################################
-function CloseButton({ closeToast, className }) {
-  return <CloseIcon className={className} onClick={closeToast} />;
-}
