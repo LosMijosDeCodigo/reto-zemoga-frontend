@@ -43,21 +43,21 @@ const documentsType = [
     name: "Servicio"
   }
 ];
-
-const initState = {
-  "userId": datos().userId,
-  "publicationTypeId": 1,
-  "name": "",
-  "price": "",
-  "stock": 0,
-  "contact": "",
-  "description": ""
-};
 const stylesImage = {
   borderBlockColor: "gray", borderStyle: "solid", width: "100px",
   margin: "4px"
 };
 export default function FormDialog() {
+
+  const initState = {
+    "userId": datos().userId,
+    "publicationTypeId": 1,
+    "name": "",
+    "price": "",
+    "stock": 0,
+    "contact": "",
+    "description": ""
+  };
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", "message": "" })
   const [open, setOpen] = React.useState(false);
@@ -67,6 +67,9 @@ export default function FormDialog() {
   const handleClickOpen = () => {
     setOpen(true);
   };
+  setTimeout(() => {
+    setForm(userId: datos().userId, ...form)
+  }, 2000);
 
   const handleClose = () => {
     setOpen(false);
